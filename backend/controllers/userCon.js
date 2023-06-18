@@ -44,6 +44,16 @@ export const getData = async (req, res) => {
   }
   
 };
+
+export const deleteData = async (req, res) => {
+    try {
+      const data = await User.deleteMany ({username: "ll"});
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(404).json({ Error: error.message });
+    }
+    
+  };
 export const updateData = async (req, res) => {
   try {
     const data = await User.updateOne({username:"ll"},{$set: {name:"Varakron"}});
