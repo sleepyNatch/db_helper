@@ -37,7 +37,7 @@ export const register = async (req, res) => {
 
 export const getData = async (req, res) => {
   try {
-    const data = await User.find({username: "Pancheewa"});
+    const data = await User.findOne({username: "ll"});
     res.status(200).json(data);
   } catch (error) {
     res.status(404).json({ Error: error.message });
