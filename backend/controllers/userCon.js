@@ -23,7 +23,7 @@ export const register = async (req, res) => {
     username,
     password ,
     email,
- 
+    
   });
 
   try {
