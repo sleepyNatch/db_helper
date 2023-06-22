@@ -28,7 +28,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 export default function Home() {
-  
   const [Gender, setGender] = React.useState('');
 
   const handleChange = (event) => {
@@ -45,14 +44,6 @@ export default function Home() {
   const handleMouseDownConfirmPassword = (event) => {
       event.preventDefault()};
 
-  // const getData = async (req, res) => {
-  //   try{
-  //     const data = await User.find();
-  //     res.status(200).json(data);      
-  //   }
-  // }
-
-    
 
   return (
   <div style={{background: "white"}}>

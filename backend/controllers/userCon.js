@@ -11,24 +11,23 @@ import User from "../models/userModels.js";
  *  - false status if registered not successfully
  ******************************************************************************/
 export const register = async (req, res) => {
-  const { name, surname, phone_number, gender, daybirth, monthbirth, yearbirth, username ,password, email } = req.body;
+  const { name, surname, phoneNumber, gender, birthDate, username ,password,confirmPassword, email } = req.body;
   const newUser = new User({
     name,
     surname,
-    phone_number,
+    phoneNumber,
     gender,
-    daybirth,
-    monthbirth,
-    yearbirth,
+    birthDate,
     username,
     password ,
+    confirmPassword,
     email,
     
   });
 
   try {
     const data = await newUser.save();
-    res.status(201).json({message:"Registerd Succeesful", data: data });
+    res.status(201).json({message:"Registerd Successful", data: data });
   } catch (error) {
     res.status(409).json({ Error: error.message });
   }
