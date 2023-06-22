@@ -26,7 +26,6 @@ export default function Home() {
       <div>
         <p>1.คุณอายุเท่าไหร่</p>
         <FormGroup>
-          <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
           <FormControlLabel required control={<Checkbox />} label="Required" />
           <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
         </FormGroup>
