@@ -40,60 +40,29 @@ export default function Risk() {
           <h1 style={{fontSize:30, display:"flex", flexDirection:"row", JustifyContent:"center", color:"white",padding:30,background:"#12A596",borderRadius:"15px"}}>กรุณาทำเเบบทดสอบความเสี่ยงเพื่อตรวจสอบถึงระดับความเสี่ยงของคุณ</h1>
         </div>
       <div style={{paddingLeft:50}}>
-        <p style={{color:'black'}}>1.คุณอายุเท่าไหร่</p>
-        <FormGroup style={{color:'black'}}>
-          <FormControlLabel
-            control={<Checkbox checked={selectedValue === 'option1'} onChange={handleChange} value="option1" />}
-          label="34-39 ปี"
-         />
-        <FormControlLabel
-        control={<Checkbox checked={selectedValue === 'option2'} onChange={handleChange} value="option2" />}
-        label="40-44 ปี"
-      />
-      <FormControlLabel
-        control={<Checkbox checked={selectedValue === 'option3'} onChange={handleChange} value="option3" />}
-        label="45-49 ปี"
-      />
-      <FormControlLabel
-        control={<Checkbox checked={selectedValue === 'option4'} onChange={handleChange} value="option4" />}
-        label="50 ปีขึ้นไป"
-      />
-        </FormGroup>
         <br></br>
-        <p style={{color:'black'}}>2.โปรดระบุเพศของคุณ</p>
-        <FormGroup style={{color:'black'}}>
-          <FormControlLabel
-            control={<Checkbox checked={selectedGender === 'option1'} onChange={genderChange} value="option1" />}
-          label="หญิง"
-         />
-         <FormControlLabel
-            control={<Checkbox checked={selectedGender === 'option2'} onChange={genderChange} value="option2" />}
-        label="ชาย"
-      />
-        </FormGroup>
-        <br></br>
-        <p style={{color:'black'}}>3.โปรดกรอกน้ำหนักของคุณ </p> <br></br>
+        <p style={{color:'black'}}>1.โปรดกรอกน้ำหนักของคุณ </p> <br></br>
         <TextField
           id="outlined-helperText"
           label="น้ำหนัก (กิโลกรัม)"
           defaultValue=""
         />
         <br></br> <br></br>
-        <p style={{color:'black'}}>3.โปรดกรอกส่วนสูงของคุณ </p> <br></br>
+        <p style={{color:'black'}}>2.โปรดกรอกส่วนสูงของคุณ </p> <br></br>
         <TextField
           id="outlined-helperText"
           label="ส่วนสูง (เซนติเมตร)"
           defaultValue=""
         />
         <br></br> <br></br>
-        <p style={{color:'black'}}>4.โปรดกรอกรอบเอวของคุณ </p> <br></br>
+        <p style={{color:'black'}}>3.โปรดกรอกรอบเอวของคุณ </p> <br></br>
         <TextField
           id="outlined-helperText"
           label="รอบเอว (เซนติเมตร)"
           defaultValue=""
         />
         <br></br> <br></br>
-        <p style={{color:'black'}}>5.โปรดระบุความดันโลหิตของคุณ</p>
+        <p style={{color:'black'}}>4.โปรดระบุความดันโลหิตของคุณ</p>
         <FormGroup style={{color:'black'}}>
           <FormControlLabel
             control={<Checkbox checked={selectedKwamdan === 'option1'} onChange={kwamdanChange} value="option1" />}
