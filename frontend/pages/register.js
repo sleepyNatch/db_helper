@@ -35,7 +35,7 @@ export default function Home() {
     surname: "",
     phoneNumber: "",
     gender: 2,
-    birthDate: "",
+    birthDate: null,
     username: "",
     password: "",
     confirmPassword: "",
@@ -43,12 +43,12 @@ export default function Home() {
   });
 
   const handleChange = (id, value) => {
-    let newValue = value
-    if (id === 'gender') {
-      newValue = Number(value);
-    } else if (id === 'birthDate') {
-      newValue = dayjs(value).format('YYYY-MM-DD');
+    let newValue = id === 'gender' ? Number(value) : value;
+
+    if (id === 'birthDate' && newValue instanceof Date) {
+      newValue = newValue.toISOString();
     }
+
     setRegisterData((prevFormData) => ({
       ...prevFormData,
       [id]: newValue,
@@ -172,7 +172,7 @@ export default function Home() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             id="birthDate"
-            onChange={(event) => handleChange('birthDate', event.target.value)}
+            onChange={(event) => handleChange('birthDate', event)}
             value={registerData.birthDate}
             label={"เดือน/วัน/ปีเกิด"}
             views={["month", "day", "year"]}
