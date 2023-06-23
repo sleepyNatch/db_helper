@@ -9,6 +9,6 @@ export default function Home() {
       router.push("/register");
     });
   return (
-    <h1>Welcome</h1>
+  <h1>db helper</h1>
   )
 }

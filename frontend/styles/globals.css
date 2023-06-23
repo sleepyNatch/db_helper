@@ -29,3 +29,7 @@ body {
   background: rgb(184, 228, 224);
   font-family: 'Noto Sans Thai', sans-serif;
 }
+body.AnErrorHasOccured
+{
+  background: #f00;
+}
