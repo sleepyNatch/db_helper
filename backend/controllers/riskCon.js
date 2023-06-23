@@ -1,80 +1,37 @@
-/*******************************************************************************
- * This file includes the functions that add, update, delete and query the data
- * from the users's collection in the database.
- ******************************************************************************/
-import Risk from "../models/RiskTestModel.js";
+import ResultRisk from "../models/resultriskModele.js"
+import User from "../models/userModels.js"
+export const getRiskTestData = async (req, res) => {
+  try {
+    const data = await User.findOne({ username: "ll" })
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(404).json({ Error: error.message })
+  }
+}
 
-/*******************************************************************************
- * This function is used to register the user.
- * Returns
- *  - true status if registered successfully
- *  - false status if registered not successfully
- ******************************************************************************/
-export const saveRisk = async (req, res) => {
-  const {
-    weight,
-    height,
-    waistline,
-    kwamdan,
-    relatives,
-    score,
-    level,
+export const getUserData = async (req, res) => {
+  try {
+    const data = await User.findOne({ username: "ll" })
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(404).json({ Error: error.message })
+  }
+}
+
+export const ResultRisk = async (req, res) => {
+  const { username, totalscore, levelRisk } = req.body
+  const ResultRisk = ResultRisk({
     username,
-  } = req.body;
-  const newRisk = new Risk({
-    weight,
-    height,
-    waistline,
-    kwamdan,
-    relatives,
-    score,
-    level,
-    username,
-  });
+    totalscore,
+    levelRisk,
+  })
 
   try {
-    const data = await newRisk.save();
-    res.status(201).json({ message: "information filled", data: data });
+    const data = await ResultRisk.save()
+    res
+      .status(201)
+      .json({ message: "The results of the risk test", data: data })
   } catch (error) {
-    res.status(409).json({ Error: error.message });
+    res.status(409).json({ Error: error.message })
   }
-};
-
-export const getRiskResult = async (req, res) => {
-  const { username } = req.params;
-  try {
-    const data = await Risk.findOne({ username: username });
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(404).json({ Error: error.message });
-  }
-};
-
-// export const getData = async (req, res) => {
-//   try {
-//     const data = await User.findOne({username: "ll"});
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(404).json({ Error: error.message });
-//   }
-
-// };
-
-// export const deleteData = async (req, res) => {
-//     try {
-//       const data = await User.deleteMany ({username: "ll"});
-//       res.status(200).json(data);
-//     } catch (error) {
-//       res.status(404).json({ Error: error.message });
-//     }
-
-//   };
-// export const updateData = async (req, res) => {
-//   try {
-//     const data = await User.updateOne({username:"ll"},{$set: {name:"Varakron"}});
-//     res.status(200).json(data);({status : true,Massage: "Update Successfully"})
-//   } catch (error) {
-//     res.status(404).json({ Error: error.message });
-//   }
-
-// };
+}
