@@ -26,6 +26,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import userAPI from "./api/userAPI";
 
 export default function Home() {
   
@@ -45,14 +46,28 @@ export default function Home() {
   const handleMouseDownConfirmPassword = (event) => {
       event.preventDefault()};
 
-  // const data = async (req, res) => {
-  //   try{
-  //     const data ();
-  //     res.status(200).json(data);      
-  //   } catch (error) {
-  //     res.status(404).json ({Error: error.message});
-  // }
-//};
+
+  const onClickRegister = () => {
+    const data= {
+      username: values.username,
+      email:values.email,
+      password: values.password,
+      birthDate: birthData,
+      gender: gender,
+    };
+
+    userAPI
+      .register()
+      .then((response) => {
+        console.log(response.data);
+          router.push("/index");
+        
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+      });
+
+  } ;
 
     
 
@@ -149,7 +164,7 @@ export default function Home() {
     </div>
 
     <div style={{display:"flex",justifyContent: "center",padding: "10px"}}>
-      <Button variant="contained" style={{ background: "#12A596" }}>ลงทะเบียนใช้งาน</Button> </div>
+      <Button onClick = {onClickRegister} variant="contained" style={{ background: "#12A596" }}>ลงทะเบียนใช้งาน</Button> </div>
 
   </div>
   )
