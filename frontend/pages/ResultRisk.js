@@ -1,47 +1,73 @@
-import handler from "./api/hello"
-import { SetStateAction, useEffect, useState } from "react"
-
-// export default function Grade() {
-//   const [score, setScore] = useState("0")
-//   const [grade, setGrade] = useState("")
-
-//   useEffect(() => {
-//     calculateGrade()
-//   }, [score])
-
-//   const handleChange = (event: {
-//     target: { value: SetStateAction<string> }
-//   }) => {
-//     setScore(event.target.value)
-//   }
-//   function calculateGrade() {
-//     if (Number(score) >= 90) {
-//       setGrade("S")
-//     } else if (Number(score) >= 80) {
-//       setGrade("A")
-//     } else if (Number(score) >= 70 && Number(score) < 80) {
-//       setGrade("B")
-//     } else if (Number(score) >= 60 && Number(score) < 70) {
-//       setGrade("C")
-//     } else {
-//       setGrade("F")
-//     }
-//   }
+import { useState, useEffect } from "react";
+import resultAPI from "./api/resultAPI";
+import * as Constant from "../constant/resultConstant";
 
 export default function Result() {
-  const [totalScore, setTotalScore] = useState(0)
+  const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(4);
+  const [levelTitle, setLevelTitle] = useState("");
+  const [levelDescription, setLevelDescription] = useState("");
+  const [suggestion, setSuggestion] = useState([]);
 
-  const retrieveScore = (score) => {
-    if (score >= 9) {
-      console.log("ระดับความเสี่ยงสูงมาก")
-    } else if (score >= 6 && score <= 8) {
-      console.log("ระดับความเสี่ยงสูง")
-    } else if (score >= 3 && score <= 5) {
-      console.log("ระดับความเสี่ยงปานกลาง")
+  const getLevel = () => {
+    resultAPI
+      .getLevelResult(username)
+      .then((response) => {
+        // setLevel(response.data)
+      })
+      .catch((e) => {
+        console.log("No level for this user");
+      });
+  };
+
+  useEffect(() => {
+    localStorage.getItem("username");
+    setDescription();
+  }, []);
+
+  const setDescription = () => {
+    let suggestions = [];
+    if (level == 1) {
+      setLevelTitle(Constant.LEVEL1);
+      setLevelDescription(Constant.DESCRIPTION_LEVEL1);
+      suggestions = [
+        Constant.SUGGEST_EXERCISE,
+        Constant.SUGGEST_CONTROL_WEIGHT,
+        Constant.SUGGEST_CHECK_PRESSURE,
+        Constant.SUGGEST_EVALUATE_3_YEAR,
+      ];
+    } else if (level == 2) {
+      setLevelTitle(Constant.LEVEL2);
+      setLevelDescription(Constant.DESCRIPTION_LEVEL2);
+      suggestions = [
+        Constant.SUGGEST_EXERCISE,
+        Constant.SUGGEST_CONTROL_WEIGHT,
+        Constant.SUGGEST_CHECK_PRESSURE,
+        Constant.SUGGEST_EVALUATE_1_to_3_YEAR,
+      ];
+    } else if (level == 3) {
+      setLevelTitle(Constant.LEVEL3);
+      setLevelDescription(Constant.DESCRIPTION_LEVEL3);
+      suggestions = [
+        Constant.SUGGEST_FOOD_EXERCISE,
+        Constant.SUGGEST_CONTROL_WEIGHT,
+        Constant.SUGGEST_CHECK_PRESSURE,
+        Constant.SUGGEST_CHECK_SUGAR,
+        Constant.SUGGEST_EVALUATE_1_to_3_YEAR,
+      ];
     } else {
-      console.log("ระดับความเสี่ยงน้อย")
+      setLevelTitle(Constant.LEVEL4);
+      setLevelDescription(Constant.DESCRIPTION_LEVEL4);
+      suggestions = [
+        Constant.SUGGEST_FOOD_EXERCISE,
+        Constant.SUGGEST_CONTROL_WEIGHT,
+        Constant.SUGGEST_CHECK_PRESSURE,
+        Constant.SUGGEST_CHECK_SUGAR,
+        Constant.SUGGEST_EVALUATE_1_YEAR,
+      ];
     }
-  }
+    setSuggestion(suggestions);
+  };
 
   return (
     <div>
@@ -114,7 +140,7 @@ export default function Result() {
             color: "white",
           }}
         >
-          9
+          {score}
         </p1>
       </div>
       <div
@@ -139,7 +165,7 @@ export default function Result() {
             color: "white",
           }}
         >
-          ระดับความเสี่ยงสูงมาก
+          {levelTitle}
         </h1>
         <p1
           style={{
@@ -150,7 +176,7 @@ export default function Result() {
             fontSize: "36px",
           }}
         >
-          * คะแนนรวมมากกว่า 8 *
+          {levelDescription}
         </p1>
       </div>
       <div
@@ -189,7 +215,8 @@ export default function Result() {
             marginLeft: "200px",
           }}
         >
-          1.ควบคุมอาหาร และออกกำลังกายสม่ำเสมอ
+          1.{suggestion[0]}
+          {/* 1.ควบคุมอาหาร และออกกำลังกายสม่ำเสมอ */}
         </p1>
         <p2
           style={{
@@ -201,7 +228,7 @@ export default function Result() {
             marginLeft: "200px",
           }}
         >
-          2.ควบคุมน้ำหนักตัวให้อยู่ในเกณฑ์ที่เหมาะสม
+          2.{suggestion[1]}
         </p2>
         <p3
           style={{
@@ -213,7 +240,7 @@ export default function Result() {
             marginLeft: "200px",
           }}
         >
-          3.ตรวจวัดความดันโลหิต
+          3.{suggestion[3]}
         </p3>
         <p4
           style={{
@@ -225,20 +252,22 @@ export default function Result() {
             marginLeft: "200px",
           }}
         >
-          4.ตรวจวัดระดับน้ำตาลในเลือด
+          4.{suggestion[3]}
         </p4>
-        <p5
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "start",
-            marginTop: "50px",
-            fontSize: "36px",
-            marginLeft: "200px",
-          }}
-        >
-          5.ควรประเมินความเสี่ยงซ้ำทุก 1 ปี
-        </p5>
+        {suggestion[4] && (
+          <p5
+            style={{
+              display: "flex",
+              flexDirection: "colunm",
+              justifyContent: "start",
+              marginTop: "50px",
+              fontSize: "36px",
+              marginLeft: "200px",
+            }}
+          >
+            5.{suggestion[4]}
+          </p5>
+        )}
       </div>
       <div>
         <button>
@@ -275,5 +304,5 @@ export default function Result() {
         </button>
       </div>
     </div>
-  )
+  );
 }
