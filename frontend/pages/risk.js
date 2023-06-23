@@ -9,6 +9,8 @@ export default function Risk() {
 
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
+    const [selectedKwamdan, setSelectedKwamdan] = useState('');
+    const [selectedRelatives, setSelectedRelatives] = useState('');
 
     const handleChange = (event) => {
       setSelectedValue(event.target.value);
@@ -16,23 +18,28 @@ export default function Risk() {
     const genderChange = (event) => {
         setSelectedGender(event.target.value);
       };
+    const kwamdanChange = (event) => {
+      setSelectedKwamdan(event.target.value);
+    };
+    const relativesChange = (event) => {
+      setSelectedRelatives(event.target.value);
+    };
 
   return (
     <div>
-      <div style={{display: "flex",flexDirection:"row",justifyContent: "center",background: "#12A596"}}>
+      <div style={{display: "flex",justifyContent: "center",background: "#12A596"}}>
         <img
            src="logo.png"
-           style={{ height: 50, width: 50, margin: "10px" }}
+           style={{ height: 65, margin: "10px",justifyContent:"center" }}
          ></img> 
-        <h1 style={{color:'white',fontSize:30}}> helper </h1>
       </div>
       <br></br> <br></br>
       <div style={{display:"flex",justifyContent:"center",flexDirection:"column",background:"white"}}>
         <br></br> <br></br>
-        <div style={{display:"flex",justifyContent:"center",background:"#12A596"}}>
-          <h1>กรุณาทำเเบบทดสอบความเสี่ยงเพื่อตรวจสอบถึงระดับความเสี่ยงของคุณ</h1>
+        <div style={{display:"flex",justifyContent:"center"}}>
+          <h1 style={{fontSize:30, display:"flex", flexDirection:"row", JustifyContent:"center", color:"white",padding:30,background:"#12A596",borderRadius:"15px"}}>กรุณาทำเเบบทดสอบความเสี่ยงเพื่อตรวจสอบถึงระดับความเสี่ยงของคุณ</h1>
         </div>
-        <div>
+      <div style={{paddingLeft:50}}>
         <p style={{color:'black'}}>1.คุณอายุเท่าไหร่</p>
         <FormGroup style={{color:'black'}}>
           <FormControlLabel
@@ -57,11 +64,11 @@ export default function Risk() {
         <FormGroup style={{color:'black'}}>
           <FormControlLabel
             control={<Checkbox checked={selectedGender === 'option1'} onChange={genderChange} value="option1" />}
-          label="ชาย"
+          label="หญิง"
          />
          <FormControlLabel
             control={<Checkbox checked={selectedGender === 'option2'} onChange={genderChange} value="option2" />}
-        label="หญิง"
+        label="ชาย"
       />
         </FormGroup>
         <br></br>
@@ -69,11 +76,47 @@ export default function Risk() {
         <TextField
           id="outlined-helperText"
           label="น้ำหนัก (กิโลกรัม)"
-          defaultValue="กิโลกรัม"
+          defaultValue=""
         />
-
+        <br></br> <br></br>
+        <p style={{color:'black'}}>3.โปรดกรอกส่วนสูงของคุณ </p> <br></br>
+        <TextField
+          id="outlined-helperText"
+          label="ส่วนสูง (เซนติเมตร)"
+          defaultValue=""
+        />
+        <br></br> <br></br>
+        <p style={{color:'black'}}>4.โปรดกรอกรอบเอวของคุณ </p> <br></br>
+        <TextField
+          id="outlined-helperText"
+          label="รอบเอว (เซนติเมตร)"
+          defaultValue=""
+        />
+        <br></br> <br></br>
+        <p style={{color:'black'}}>5.โปรดระบุความดันโลหิตของคุณ</p>
+        <FormGroup style={{color:'black'}}>
+          <FormControlLabel
+            control={<Checkbox checked={selectedKwamdan === 'option1'} onChange={kwamdanChange} value="option1" />}
+          label="ปกติ"
+         />
+         <FormControlLabel
+            control={<Checkbox checked={selectedKwamdan === 'option2'} onChange={kwamdanChange} value="option2" />}
+        label="ผิดปกติ"
+      />
+        </FormGroup>
         <br></br>
-        </div>
+        <p style={{color:'black'}}>5.ประวัติโรคเบาหวานในญาติสายตรง</p>
+        <FormGroup style={{color:'black'}}>
+          <FormControlLabel
+            control={<Checkbox checked={selectedRelatives === 'option1'} onChange={relativesChange} value="option1" />}
+          label="ไม่มี"
+         />
+         <FormControlLabel
+            control={<Checkbox checked={selectedRelatives === 'option2'} onChange={relativesChange} value="option2" />}
+        label="มี"
+      />
+        </FormGroup>
+      </div>
       </div>
       </div>
 
