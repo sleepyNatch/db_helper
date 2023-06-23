@@ -29,7 +29,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import userAPI from "./api/userAPI";
 
 export default function Home() {
-  
+
   const [Gender, setGender] = React.useState('');
 
   const handleChange = (event) => {
@@ -49,18 +49,24 @@ export default function Home() {
 
   const onClickRegister = () => {
     const data= {
-      username: values.username,
-      email:values.email,
-      password: values.password,
-      birthDate: birthData,
+      name: values.name,
+      surname: values.surname,
+      phoneNumber: values.phoneNumber,
       gender: gender,
+      birthDate: birthDate,
+      username: values.username,
+      password: values.password,
+      confirmPassword: values.confirmPassword,
+      email:values.email,
+           
+      
     };
 
     userAPI
-      .register()
+      .register(data)
       .then((response) => {
         console.log(response.data);
-          router.push("/index");
+          router.push("/risk");
         
       })
       .catch((e) => {
