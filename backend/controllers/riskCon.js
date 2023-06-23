@@ -11,23 +11,25 @@ import Risk from "../models/RiskTestModel.js";
  *  - false status if registered not successfully
  ******************************************************************************/
 export const saveRisk = async (req, res) => {
-  const {weight,height,waistline,kwamdan,relatives } = req.body;
-  const  newRisk= new Risk({
+  const { weight, height, waistline, kwamdan, relatives, score, level } =
+    req.body;
+  const newRisk = new Risk({
     weight,
     height,
     waistline,
     kwamdan,
     relatives,
+    score,
+    level,
   });
 
   try {
     const data = await newRisk.save();
-    res.status(201).json({message:"information filled", data: data });
+    res.status(201).json({ message: "information filled", data: data });
   } catch (error) {
     res.status(409).json({ Error: error.message });
   }
 };
-
 
 // export const getData = async (req, res) => {
 //   try {
@@ -36,7 +38,7 @@ export const saveRisk = async (req, res) => {
 //   } catch (error) {
 //     res.status(404).json({ Error: error.message });
 //   }
-  
+
 // };
 
 // export const deleteData = async (req, res) => {
@@ -46,7 +48,7 @@ export const saveRisk = async (req, res) => {
 //     } catch (error) {
 //       res.status(404).json({ Error: error.message });
 //     }
-    
+
 //   };
 // export const updateData = async (req, res) => {
 //   try {
@@ -55,5 +57,5 @@ export const saveRisk = async (req, res) => {
 //   } catch (error) {
 //     res.status(404).json({ Error: error.message });
 //   }
-  
+
 // };

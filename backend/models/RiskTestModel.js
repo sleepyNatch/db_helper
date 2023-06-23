@@ -9,7 +9,9 @@ const riskSchema = mongoose.Schema({
   height: { type: Number, required: true, unique: false },
   waistline: { type: Number, required: true, unique: false },
   kwamdan: { type: Boolean, required: true, unique: false },
-  relatives: {type: Boolean, required: true, unique: false},
+  relatives: { type: Boolean, required: true, unique: false },
+  score: { type: Number, required: true, unique: false },
+  level: { type: Number, required: true, unique: false },
 });
 
 const Risk = mongoose.model("Risk", riskSchema);
