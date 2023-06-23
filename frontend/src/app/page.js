@@ -45,12 +45,14 @@ export default function Home() {
   const handleMouseDownConfirmPassword = (event) => {
       event.preventDefault()};
 
-  // const getData = async (req, res) => {
+  // const data = async (req, res) => {
   //   try{
-  //     const data = await User.find();
+  //     const data ();
   //     res.status(200).json(data);      
-  //   }
+  //   } catch (error) {
+  //     res.status(404).json ({Error: error.message});
   // }
+//};
 
     
 
