@@ -42,7 +42,6 @@ export const saveRisk = async (req, res) => {
 
 export const getRiskResult = async (req, res) => {
   const { username } = req.params;
-  console.log(username);
   try {
     const data = await Risk.findOne({ username: username });
     res.status(200).json(data);
