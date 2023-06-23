@@ -43,9 +43,9 @@ export default function Home() {
   });
 
   const handleChange = (id, value) => {
-    let newValue = id === 'gender' ? Number(value) : value;
+    let newValue = id === "gender" ? Number(value) : value;
 
-    if (id === 'birthDate' && newValue instanceof Date) {
+    if (id === "birthDate" && newValue instanceof Date) {
       newValue = newValue.toISOString();
     }
 
@@ -70,28 +70,17 @@ export default function Home() {
 
   const onClickRegister = () => {
     console.log(registerData);
-    // const data= {
-    //   name: values.name,
-    //   surname: values.surname,
-    //   phoneNumber: values.phoneNumber,
-    //   gender: gender,
-    //   birthDate: birthDate,
-    //   username: values.username,
-    //   password: values.password,
-    //   confirmPassword: values.confirmPassword,
-    //   email:values.email,
 
-    // };
-    // console.log(data);
-    // userAPI
-    //   .register(data)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     router.push("/risk");
-    //   })
-    //   .catch((e) => {
-    //     console.log(e.response.data);
-    //   });
+    userAPI
+      .register(registerData)
+      .then((response) => {
+        localStorage.setItem("username", registerData.username);
+        console.log(response.data);
+        // router.push("/risk");
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+      });
   };
 
   return (
@@ -133,7 +122,7 @@ export default function Home() {
       >
         <TextField
           id="name"
-          onChange={(event) => handleChange('name', event.target.value)}
+          onChange={(event) => handleChange("name", event.target.value)}
           label="ชื่อ"
           variant="outlined"
         />
@@ -144,7 +133,7 @@ export default function Home() {
       >
         <TextField
           id="surname"
-          onChange={(event) => handleChange('surname', event.target.value)}
+          onChange={(event) => handleChange("surname", event.target.value)}
           label="นามสกุล"
           variant="outlined"
         />
@@ -158,7 +147,7 @@ export default function Home() {
           <Select
             labelId="gender"
             id="demo-simple-select-helper"
-            onChange={(event) => handleChange('gender', event.target.value)}
+            onChange={(event) => handleChange("gender", event.target.value)}
             label="Gender"
           >
             <MenuItem value={2}>ชาย</MenuItem>
@@ -172,7 +161,7 @@ export default function Home() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             id="birthDate"
-            onChange={(event) => handleChange('birthDate', event)}
+            onChange={(event) => handleChange("birthDate", event)}
             value={registerData.birthDate}
             label={"เดือน/วัน/ปีเกิด"}
             views={["month", "day", "year"]}
@@ -184,7 +173,7 @@ export default function Home() {
       >
         <TextField
           id="phoneNumber"
-          onChange={(event) => handleChange('phoneNumber', event.target.value)}
+          onChange={(event) => handleChange("phoneNumber", event.target.value)}
           label="หมายเลขโทรศัพท์มือถือ"
           variant="outlined"
         />
@@ -193,21 +182,23 @@ export default function Home() {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "10px" }}
       >
-        <TextField 
-          id="email" 
-          onChange={(event) => handleChange('email', event.target.value)}
-          label="อีเมล" 
-          variant="outlined" />
+        <TextField
+          id="email"
+          onChange={(event) => handleChange("email", event.target.value)}
+          label="อีเมล"
+          variant="outlined"
+        />
       </div>
 
       <div
         style={{ display: "flex", justifyContent: "center", padding: "10px" }}
       >
-        <TextField 
-        id="username" 
-        onChange={(event) => handleChange('username', event.target.value)}
-        label="ชื่อผู้ใช้" 
-        variant="outlined" />
+        <TextField
+          id="username"
+          onChange={(event) => handleChange("username", event.target.value)}
+          label="ชื่อผู้ใช้"
+          variant="outlined"
+        />
       </div>
 
       <div
@@ -219,7 +210,7 @@ export default function Home() {
           </InputLabel>
           <OutlinedInput
             id="password"
-            onChange={(event) => handleChange('password', event.target.value)}
+            onChange={(event) => handleChange("password", event.target.value)}
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
@@ -252,7 +243,9 @@ export default function Home() {
           </InputLabel>
           <OutlinedInput
             id="confirmPassword"
-            onChange={(event) => handleChange('confirmPassword', event.target.value)}
+            onChange={(event) =>
+              handleChange("confirmPassword", event.target.value)
+            }
             type={showConfirmPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
