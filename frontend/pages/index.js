@@ -1,3 +1,14 @@
-export default function Home() {
-  return <h1>DB Helper</h1>;
+'use client'
+
+import { useRouter } from "next/router"
+import { useEffect } from "react";
+
+export default function Home() {    
+  const router = useRouter();
+    useEffect(()=>{
+      router.push("/register");
+    });
+  return (
+    <h1>Welcome</h1>
+  )
 }
