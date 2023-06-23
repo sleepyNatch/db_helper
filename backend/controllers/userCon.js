@@ -54,7 +54,6 @@ export const getUserDataByUsername = async (req, res) => {
 };
 
 export const getData = async (req, res) => {
-  console.log(req);
   try {
     const data = await User.findOne();
     res.status(200).json(req);
