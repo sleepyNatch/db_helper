@@ -22,6 +22,7 @@ export default function Risk() {
   const [riskLevel, setRiskLevel] = useState(0);
   const [isCalScore, setIsCalScore] = useState(false);
   const [isCalLevel, setIsCalLevel] = useState(false);
+  const [isSaveData, setIsSaveData] = useState(false);
   const [saveRisk, setSaveRisk] = useState({
     weight: "",
     height: "",
@@ -31,6 +32,10 @@ export default function Risk() {
     score: 0,
     level: 0,
   });
+
+  // useEffect(() => {
+  //   saveData();
+  // }, [isSaveData]);
 
   const kwamdanChange = (event) => {
     const selectedValue = event.target.value;
@@ -60,26 +65,21 @@ export default function Risk() {
   };
 
   const onClickSaveRisk = () => {
+    console.log("onClickSaveRisk");
     calculateScore(userData);
     if (isCalScore) calculateLevel();
-    if (isCalScore && isCalLevel) {
-      setSaveRisk((prevFormData) => ({
-        ...prevFormData,
-        score: totalScore,
-        level: riskLevel,
-        username: username,
-      }));
+    saveData();
+  };
 
-      console.log("saveRisk", saveRisk);
-      RiskAPI.saveRisk(saveRisk)
-        .then((response) => {
-          // router.push("/resultRisk");
-          console.log(response);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
+  const saveData = () => {
+    RiskAPI.saveRisk(saveRisk)
+      .then((response) => {
+        router.push("/resultRisk");
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const getUserData = (username) => {
@@ -121,27 +121,42 @@ export default function Risk() {
     if (saveRisk.relatives == "true") {
       score += 4;
     }
+
+    setSaveRisk((prevFormData) => ({
+      ...prevFormData,
+      score: score,
+    }));
+
     setTotalscore(score);
     setIsCalScore(true);
   };
 
   const calculateLevel = () => {
-    if (totalScore > 8) setRiskLevel(4);
-    else if (totalScore >= 6 && totalScore <= 8) setRiskLevel(3);
-    else if (totalScore >= 3 && totalScore <= 5) setRiskLevel(2);
-    else if (totalScore <= 2) setRiskLevel(1);
+    let calLevel = 0;
+    if (totalScore > 8) calLevel = 4;
+    else if (totalScore >= 6 && totalScore <= 8) calLevel = 3;
+    else if (totalScore >= 3 && totalScore <= 5) calLevel = 2;
+    else if (totalScore <= 2) calLevel = 1;
+    setSaveRisk((prevFormData) => ({
+      ...prevFormData,
+      level: calLevel,
+    }));
     setIsCalLevel(true);
   };
 
   useEffect(() => {
     let usernameLocal = localStorage.getItem("username") || "Sugar";
+    setSaveRisk((prevFormData) => ({
+      ...prevFormData,
+      username: usernameLocal,
+    }));
     setUsername(usernameLocal);
     getUserData(usernameLocal);
   }, []);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+  // useEffect(() => {
+  //   console.log(userData);
+  // }, [userData]);
 
   return (
     <div>
@@ -266,7 +281,7 @@ export default function Risk() {
         </div>
         <br></br> <br></br>
         <div style={{ display: "flex", justifyContent: "right", padding: 50 }}>
-          <botton
+          <button
             onClick={onClickSaveRisk}
             style={{
               fontSize: 20,
@@ -277,7 +292,7 @@ export default function Risk() {
             }}
           >
             ประเมินความเสี่ยง
-          </botton>
+          </button>
         </div>
       </div>
     </div>
