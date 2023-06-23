@@ -10,11 +10,14 @@ import {
 } from "@mui/material";
 import RiskAPI from "./api/riskAPI";
 import userAPI from "./api/userAPI";
+import { useRouter } from "next/router";
 
 export default function Risk() {
+  const router = useRouter();
   const [selectedKwamdan, setSelectedKwamdan] = useState("");
   const [selectedRelatives, setSelectedRelatives] = useState("");
   const [userData, setUserData] = useState(null);
+  const [username, setUsername] = useState("");
   const [totalScore, setTotalscore] = useState(0);
   const [riskLevel, setRiskLevel] = useState(0);
   const [isCalScore, setIsCalScore] = useState(false);
@@ -65,26 +68,18 @@ export default function Risk() {
         ...prevFormData,
         score: totalScore,
         level: riskLevel,
+        username: username,
       }));
 
-      console.log(saveRisk);
-
-      RiskAPI.saveRisk(saveRisk, totalScore, riskLevel)
+      RiskAPI.saveRisk(saveRisk)
         .then((response) => {
+          router.push("/resultRisk");
           console.log(response);
         })
         .catch((e) => {
           console.log(e);
         });
     }
-
-    // RiskAPI.saveRisk(saveRisk)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
   };
 
   const getUserData = (username) => {
@@ -139,8 +134,9 @@ export default function Risk() {
   };
 
   useEffect(() => {
-    let username = localStorage.getItem("username") || "Sugar";
-    getUserData(username);
+    let usernameLocal = localStorage.getItem("username") || "Sugar";
+    setUsername(usernameLocal);
+    getUserData(usernameLocal);
   }, []);
 
   useEffect(() => {
