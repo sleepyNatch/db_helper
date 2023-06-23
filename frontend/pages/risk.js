@@ -33,9 +33,27 @@ export default function Risk() {
     level: 0,
   });
 
-  // useEffect(() => {
-  //   saveData();
-  // }, [isSaveData]);
+  useEffect(() => {
+    console.log("riskLevel", riskLevel);
+    console.log("totalScore", totalScore);
+    if (isCalScore) calculateLevel();
+
+    setSaveRisk((prevFormData) => ({
+      ...prevFormData,
+      level: riskLevel,
+    }));
+
+    setSaveRisk((prevFormData) => ({
+      ...prevFormData,
+      score: totalScore,
+    }));
+
+    if (isCalLevel && isCalScore) {
+      saveData();
+    }
+
+    console.log(saveRisk);
+  }, [isCalLevel, isCalScore]);
 
   const kwamdanChange = (event) => {
     const selectedValue = event.target.value;
@@ -67,8 +85,6 @@ export default function Risk() {
   const onClickSaveRisk = () => {
     console.log("onClickSaveRisk");
     calculateScore(userData);
-    if (isCalScore) calculateLevel();
-    saveData();
   };
 
   const saveData = () => {
@@ -122,13 +138,10 @@ export default function Risk() {
       score += 4;
     }
 
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      score: score,
-    }));
-
     setTotalscore(score);
     setIsCalScore(true);
+
+    console.log("score", score);
   };
 
   const calculateLevel = () => {
@@ -137,11 +150,9 @@ export default function Risk() {
     else if (totalScore >= 6 && totalScore <= 8) calLevel = 3;
     else if (totalScore >= 3 && totalScore <= 5) calLevel = 2;
     else if (totalScore <= 2) calLevel = 1;
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      level: calLevel,
-    }));
+
     setIsCalLevel(true);
+    console.log("calLevel", calLevel);
   };
 
   useEffect(() => {

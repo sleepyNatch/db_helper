@@ -5,7 +5,7 @@ This file is the structure of the users's collection**/
 import mongoose from "mongoose";
 
 const riskSchema = mongoose.Schema({
-  username: { type: String, required: true, unique: false },
+  username: { type: String, required: true, unique: true },
   weight: { type: Number, required: true, unique: false },
   height: { type: Number, required: true, unique: false },
   waistline: { type: Number, required: true, unique: false },

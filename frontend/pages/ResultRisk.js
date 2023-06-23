@@ -16,11 +16,16 @@ export default function Result() {
     getResult(usernameLocal);
   }, []);
 
+  useEffect(() => {
+    console.log("scoreResult", score);
+    console.log("LevelResult", level);
+  }, [score, level]);
+
   const getResult = (username) => {
     console.log("user: ", username);
     RiskAPI.getRiskResult(username)
       .then((response) => {
-        console.log(response.data);
+        console.log("res", response.data);
         setLevel(response.data.level);
         setScore(response.data.score);
         setDescription();
