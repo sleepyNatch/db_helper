@@ -11,10 +11,9 @@ const userSchema = mongoose.Schema({
   gender: { type: Boolean, required: true, unique: false },
   birthDate: { type: Date, required: true, unique: false },
   username: { type: String, required: true, unique: true },
-  password: {type: String, required: true, unique: false},
-  confirmPassword: {type: String, required: true, unique: false},
+  password: { type: String, required: true, unique: false },
+  confirmPassword: { type: String, required: true, unique: false },
   email: { type: String, unique: true },
-  
 });
 
 const User = mongoose.model("User", userSchema);

@@ -16,7 +16,7 @@
   }
 }
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,4 +24,12 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+} */
+body {
+  background: rgb(184, 228, 224);
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+body.AnErrorHasOccured
+{
+  background: #f00;
 }

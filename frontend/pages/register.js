@@ -25,11 +25,12 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import { useRouter } from "next/router";
 import userAPI from "./api/userAPI";
 
 export default function Home() {
   // const [Gender, setGender] = React.useState("");
+  const router = useRouter();
   const [registerData, setRegisterData] = React.useState({
     name: "",
     surname: "",
@@ -76,10 +77,10 @@ export default function Home() {
       .then((response) => {
         localStorage.setItem("username", registerData.username);
         console.log(response.data);
-        // router.push("/risk");
+        router.push("/risk");
       })
       .catch((e) => {
-        console.log(e.response.data);
+        console.log(e);
       });
   };
 
