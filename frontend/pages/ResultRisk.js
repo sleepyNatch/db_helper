@@ -1,29 +1,38 @@
 import { useState, useEffect } from "react";
-import resultAPI from "./api/resultAPI";
+import RiskAPI from "./api/riskAPI";
 import * as Constant from "../constant/resultConstant";
+import { useRouter } from "next/router";
 
 export default function Result() {
+  const router = useRouter();
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(4);
   const [levelTitle, setLevelTitle] = useState("");
   const [levelDescription, setLevelDescription] = useState("");
   const [suggestion, setSuggestion] = useState([]);
 
-  const getLevel = () => {
-    resultAPI
-      .getLevelResult(username)
+  useEffect(() => {
+    let usernameLocal = localStorage.getItem("username") || "Sugar";
+    getResult(usernameLocal);
+  }, []);
+
+  const getResult = (username) => {
+    console.log("user: ", username);
+    RiskAPI.getRiskResult(username)
       .then((response) => {
-        // setLevel(response.data)
+        console.log(response.data);
+        setLevel(response.data.level);
+        setScore(response.data.score);
+        setDescription();
       })
       .catch((e) => {
         console.log("No level for this user");
       });
   };
 
-  useEffect(() => {
-    localStorage.getItem("username");
-    setDescription();
-  }, []);
+  const goToMainPage = () => {
+    router.push("/register");
+  };
 
   const setDescription = () => {
     let suggestions = [];
@@ -71,31 +80,7 @@ export default function Result() {
 
   return (
     <div>
-      <div style={{ backgroundColor: "#B8E4E0" }}>
-        <div
-          style={{ backgroundColor: "#12A596", marginBlockEnd: "10px" }}
-        ></div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            background: "#12A596",
-          }}
-        >
-          <h1
-            style={{
-              color: "white",
-              margin: "30px",
-              fontSize: "50px",
-              marginLeft: "45px",
-            }}
-          >
-            {" "}
-            db helper{" "}
-          </h1>
-        </div>
-      </div>
+      {/* <NavBar /> */}
       <div
         style={{
           display: "flex",
@@ -109,180 +94,167 @@ export default function Result() {
       </div>
       <div
         style={{
-          backgroundColor: "#FF8484",
-          marginLeft: "600px",
-          marginRight: "600px",
-          marginBlockEnd: "20px",
+          display: "flex",
+          justifyContent: "center",
           marginTop: "50px",
-          paddingBlockEnd: "90px",
-          paddingTop: "30px",
-          borderRadius: "20px",
         }}
       >
-        <h1
+        <div
           style={{
+            padding: "20px",
+            paddingLeft: "50px",
+            paddingRight: "50px",
+            backgroundColor: "#FF8484",
             display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "center",
-            marginTop: "50px",
-            fontSize: "48px",
+            flexDirection: "column",
+            borderRadius: "20px",
           }}
         >
-          คะแนนของคุณ
-        </h1>
-        <p1
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "center",
-            marginTop: "50px",
-            fontSize: "150px",
-            color: "white",
-          }}
-        >
-          {score}
-        </p1>
-      </div>
-      <div
-        style={{
-          backgroundColor: "#FF5151",
-          marginLeft: "600px",
-          marginRight: "600px",
-          marginBlockEnd: "20px",
-          marginTop: "50px",
-          paddingBlockEnd: "90px",
-          paddingTop: "30px",
-          borderRadius: "20px",
-        }}
-      >
-        <h1
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "center",
-            marginTop: "50px",
-            fontSize: "48px",
-            color: "white",
-          }}
-        >
-          {levelTitle}
-        </h1>
-        <p1
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "center",
-            marginTop: "50px",
-            fontSize: "36px",
-          }}
-        >
-          {levelDescription}
-        </p1>
-      </div>
-      <div
-        style={{
-          backgroundColor: "white",
-          marginLeft: "400px",
-          marginRight: "400px",
-          marginBlockEnd: "20px",
-          marginTop: "50px",
-          paddingBlockEnd: "60px",
-          paddingTop: "30px",
-          borderRadius: "20px",
-          marginRight: "100px",
-        }}
-      >
-        <h1
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "start",
-            marginTop: "50px",
-            fontSize: "36px",
-            color: "black",
-            marginLeft: "100px",
-          }}
-        >
-          *ข้อแนะนำ*
-        </h1>
-        <p1
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "start",
-            marginTop: "50px",
-            fontSize: "36px",
-            marginLeft: "200px",
-          }}
-        >
-          1.{suggestion[0]}
-          {/* 1.ควบคุมอาหาร และออกกำลังกายสม่ำเสมอ */}
-        </p1>
-        <p2
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "start",
-            marginTop: "50px",
-            fontSize: "36px",
-            marginLeft: "200px",
-          }}
-        >
-          2.{suggestion[1]}
-        </p2>
-        <p3
-          style={{
-            display: "flex",
-            flexDirection: "start",
-            justifyContent: "start",
-            marginTop: "50px",
-            fontSize: "36px",
-            marginLeft: "200px",
-          }}
-        >
-          3.{suggestion[3]}
-        </p3>
-        <p4
-          style={{
-            display: "flex",
-            flexDirection: "colunm",
-            justifyContent: "start",
-            marginTop: "50px",
-            fontSize: "36px",
-            marginLeft: "200px",
-          }}
-        >
-          4.{suggestion[3]}
-        </p4>
-        {suggestion[4] && (
-          <p5
+          <h1
             style={{
-              display: "flex",
-              flexDirection: "colunm",
-              justifyContent: "start",
               marginTop: "50px",
-              fontSize: "36px",
-              marginLeft: "200px",
+              fontSize: "48px",
             }}
           >
-            5.{suggestion[4]}
-          </p5>
-        )}
+            คะแนนของคุณ
+          </h1>
+          <p1
+            style={{
+              marginTop: "10px",
+              fontSize: "150px",
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            {score}
+          </p1>
+        </div>
       </div>
-      <div>
-        <button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "80px",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "#FF5151",
+            padding: "70px",
+            display: "flex",
+            flexDirection: "column",
+            borderRadius: "20px",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "48px",
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            {levelTitle}
+          </h1>
+          <p1
+            style={{
+              marginTop: "20px",
+              fontSize: "36px",
+              textAlign: "center",
+            }}
+          >
+            {levelDescription}
+          </p1>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "50px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "white",
+            marginTop: "50px",
+            padding: "80px",
+            paddingLeft: "150px",
+            paddingRight: "150px",
+            borderRadius: "20px",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "36px",
+              color: "black",
+            }}
+          >
+            *ข้อแนะนำ*
+          </h1>
+          <p1
+            style={{
+              marginTop: "50px",
+              fontSize: "36px",
+              marginLeft: "100px",
+            }}
+          >
+            1.{suggestion[0]}
+          </p1>
+          <p2
+            style={{
+              marginTop: "50px",
+              fontSize: "36px",
+              marginLeft: "100px",
+            }}
+          >
+            2.{suggestion[1]}
+          </p2>
+          <p3
+            style={{
+              marginTop: "50px",
+              fontSize: "36px",
+              marginLeft: "100px",
+            }}
+          >
+            3.{suggestion[3]}
+          </p3>
+          <p4
+            style={{
+              marginTop: "50px",
+              fontSize: "36px",
+              marginLeft: "100px",
+            }}
+          >
+            4.{suggestion[3]}
+          </p4>
+          {suggestion[4] && (
+            <p5
+              style={{
+                marginTop: "50px",
+                fontSize: "36px",
+                marginLeft: "100px",
+              }}
+            >
+              5.{suggestion[4]}
+            </p5>
+          )}
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "100px",
+        }}
+      >
+        <button onClick={goToMainPage}>
           <div
             style={{
               backgroundColor: "#12A596",
-              marginLeft: "2000px",
-              marginRight: "100px",
-              marginBlockEnd: "20px",
-              marginTop: "100px",
-              paddingBlockEnd: "60px",
-              paddingTop: "60px",
+              padding: "10px",
               borderRadius: "20px",
-              paddingLeft: "30px",
-              paddingRight: "30px",
             }}
           >
             <h3
