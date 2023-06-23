@@ -62,7 +62,6 @@ export default function Risk() {
   const onClickSaveRisk = () => {
     calculateScore(userData);
     if (isCalScore) calculateLevel();
-
     if (isCalScore && isCalLevel) {
       setSaveRisk((prevFormData) => ({
         ...prevFormData,
@@ -71,6 +70,7 @@ export default function Risk() {
         username: username,
       }));
 
+      console.log("saveRisk", saveRisk);
       RiskAPI.saveRisk(saveRisk)
         .then((response) => {
           router.push("/resultRisk");
