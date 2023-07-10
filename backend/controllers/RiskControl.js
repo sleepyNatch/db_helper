@@ -36,7 +36,7 @@ export const saveRisk = async (req, res) => {
     const data = await newRisk.save();
     res.status(201).json({ message: "information filled", data: data });
   } catch (error) {
-    res.status(409).json({ Error: error.message });
+    res.status(409).json({ Error: error });
   }
 };
 

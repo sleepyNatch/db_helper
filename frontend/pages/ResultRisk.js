@@ -3,10 +3,10 @@ import RiskAPI from "./api/riskAPI";
 import * as Constant from "../constant/resultConstant";
 import { useRouter } from "next/router";
 
-export default function Result() {
+export default function ResultRisk() {
   const router = useRouter();
   const [score, setScore] = useState(0);
-  const [level, setLevel] = useState(4);
+  const [level, setLevel] = useState(0);
   const [levelTitle, setLevelTitle] = useState("");
   const [levelDescription, setLevelDescription] = useState("");
   const [suggestion, setSuggestion] = useState([]);
@@ -17,18 +17,14 @@ export default function Result() {
   }, []);
 
   useEffect(() => {
-    console.log("scoreResult", score);
-    console.log("LevelResult", level);
+    setDescription();
   }, [score, level]);
 
   const getResult = (username) => {
-    console.log("user: ", username);
     RiskAPI.getRiskResult(username)
       .then((response) => {
-        console.log("res", response.data);
         setLevel(response.data.level);
         setScore(response.data.score);
-        setDescription();
       })
       .catch((e) => {
         console.log("No level for this user");
@@ -123,7 +119,7 @@ export default function Result() {
           >
             คะแนนของคุณ
           </h1>
-          <p1
+          <p
             style={{
               marginTop: "10px",
               fontSize: "150px",
@@ -132,7 +128,7 @@ export default function Result() {
             }}
           >
             {score}
-          </p1>
+          </p>
         </div>
       </div>
       <div
@@ -160,7 +156,7 @@ export default function Result() {
           >
             {levelTitle}
           </h1>
-          <p1
+          <p
             style={{
               marginTop: "20px",
               fontSize: "36px",
@@ -168,7 +164,7 @@ export default function Result() {
             }}
           >
             {levelDescription}
-          </p1>
+          </p>
         </div>
       </div>
       <div
@@ -198,53 +194,19 @@ export default function Result() {
           >
             *ข้อแนะนำ*
           </h1>
-          <p1
-            style={{
+       
+            {suggestion.map((data, index) => {
+              return (
+                <div key={index} data={data}>
+                  <p  style={{
               marginTop: "50px",
               fontSize: "36px",
               marginLeft: "100px",
-            }}
-          >
-            1.{suggestion[0]}
-          </p1>
-          <p2
-            style={{
-              marginTop: "50px",
-              fontSize: "36px",
-              marginLeft: "100px",
-            }}
-          >
-            2.{suggestion[1]}
-          </p2>
-          <p3
-            style={{
-              marginTop: "50px",
-              fontSize: "36px",
-              marginLeft: "100px",
-            }}
-          >
-            3.{suggestion[3]}
-          </p3>
-          <p4
-            style={{
-              marginTop: "50px",
-              fontSize: "36px",
-              marginLeft: "100px",
-            }}
-          >
-            4.{suggestion[3]}
-          </p4>
-          {suggestion[4] && (
-            <p5
-              style={{
-                marginTop: "50px",
-                fontSize: "36px",
-                marginLeft: "100px",
-              }}
-            >
-              5.{suggestion[4]}
-            </p5>
-          )}
+            }}>  {index + 1}. {data}</p>
+                
+                </div>
+              );
+            })}
         </div>
       </div>
       <div

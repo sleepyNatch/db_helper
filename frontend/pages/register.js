@@ -16,26 +16,21 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
-
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useRouter } from "next/router";
 import userAPI from "./api/userAPI";
 
 export default function Home() {
-  // const [Gender, setGender] = React.useState("");
   const router = useRouter();
   const [registerData, setRegisterData] = React.useState({
     name: "",
     surname: "",
     phoneNumber: "",
-    gender: 2,
+    gender: 0,
     birthDate: null,
     username: "",
     password: "",
@@ -71,16 +66,16 @@ export default function Home() {
 
   const onClickRegister = () => {
     console.log(registerData);
-
     userAPI
       .register(registerData)
       .then((response) => {
-        localStorage.setItem("username", registerData.username);
         console.log(response.data);
+
+        localStorage.setItem("username", registerData.username);
         router.push("/risk");
       })
       .catch((e) => {
-        console.log(e);
+        console.log(e.response.data);
       });
   };
 
@@ -148,6 +143,7 @@ export default function Home() {
           <Select
             labelId="gender"
             id="demo-simple-select-helper"
+            defaultValue={2}
             onChange={(event) => handleChange("gender", event.target.value)}
             label="Gender"
           >

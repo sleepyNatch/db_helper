@@ -17,12 +17,8 @@ export default function Risk() {
   const [selectedKwamdan, setSelectedKwamdan] = useState("");
   const [selectedRelatives, setSelectedRelatives] = useState("");
   const [userData, setUserData] = useState(null);
-  const [username, setUsername] = useState("");
-  const [totalScore, setTotalscore] = useState(0);
-  const [riskLevel, setRiskLevel] = useState(0);
   const [isCalScore, setIsCalScore] = useState(false);
   const [isCalLevel, setIsCalLevel] = useState(false);
-  const [isSaveData, setIsSaveData] = useState(false);
   const [saveRisk, setSaveRisk] = useState({
     weight: "",
     height: "",
@@ -34,69 +30,16 @@ export default function Risk() {
   });
 
   useEffect(() => {
-    console.log("riskLevel", riskLevel);
-    console.log("totalScore", totalScore);
-    if (isCalScore) calculateLevel();
+    let usernameLocal = localStorage.getItem("username");
+    handleChange("username", usernameLocal);
+    getUserData(usernameLocal);
+  }, []);
 
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      level: riskLevel,
-    }));
-
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      score: totalScore,
-    }));
-
+  useEffect(() => {
     if (isCalLevel && isCalScore) {
       saveData();
     }
-
-    console.log(saveRisk);
   }, [isCalLevel, isCalScore]);
-
-  const kwamdanChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedKwamdan(selectedValue);
-
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      [event.target.name]: selectedValue,
-    }));
-  };
-
-  const relativesChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedRelatives(event.target.value);
-
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      [event.target.name]: selectedValue,
-    }));
-  };
-
-  const handleChange = (id, value) => {
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-    }));
-  };
-
-  const onClickSaveRisk = () => {
-    console.log("onClickSaveRisk");
-    calculateScore(userData);
-  };
-
-  const saveData = () => {
-    RiskAPI.saveRisk(saveRisk)
-      .then((response) => {
-        router.push("/resultRisk");
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
   const getUserData = (username) => {
     userAPI
@@ -107,6 +50,38 @@ export default function Risk() {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const saveData = () => {
+    RiskAPI.saveRisk(saveRisk)
+      .then((response) => {
+        console.log(response.data);
+        router.push("/resultRisk");
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+      });
+  };
+
+  const handleChange = (id, value) => {
+    setSaveRisk((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+
+  const kwamdanChange = (event) => {
+    setSelectedKwamdan(event.target.value);
+    handleChange(event.target.name, event.target.value);
+  };
+
+  const relativesChange = (event) => {
+    setSelectedRelatives(event.target.value);
+    handleChange(event.target.name, event.target.value);
+  };
+
+  const onClickSaveRisk = () => {
+    calculateScore(userData);
   };
 
   const calculateScore = (data) => {
@@ -138,36 +113,21 @@ export default function Risk() {
       score += 4;
     }
 
-    setTotalscore(score);
+    handleChange("score", score);
     setIsCalScore(true);
-
-    console.log("score", score);
+    calculateLevel(score);
   };
 
-  const calculateLevel = () => {
+  const calculateLevel = (totalScore) => {
     let calLevel = 0;
     if (totalScore > 8) calLevel = 4;
     else if (totalScore >= 6 && totalScore <= 8) calLevel = 3;
     else if (totalScore >= 3 && totalScore <= 5) calLevel = 2;
     else if (totalScore <= 2) calLevel = 1;
 
+    handleChange("level", calLevel);
     setIsCalLevel(true);
-    console.log("calLevel", calLevel);
   };
-
-  useEffect(() => {
-    let usernameLocal = localStorage.getItem("username") || "Sugar";
-    setSaveRisk((prevFormData) => ({
-      ...prevFormData,
-      username: usernameLocal,
-    }));
-    setUsername(usernameLocal);
-    getUserData(usernameLocal);
-  }, []);
-
-  // useEffect(() => {
-  //   console.log(userData);
-  // }, [userData]);
 
   return (
     <div>
@@ -217,7 +177,7 @@ export default function Risk() {
             onChange={(event) => handleChange("weight", event.target.value)}
             value={saveRisk.weight}
             label="น้ำหนัก (กิโลกรัม)"
-            defaultValue=""
+            type="number"
           />
           <br></br> <br></br>
           <p style={{ color: "black" }}>2.โปรดกรอกส่วนสูงของคุณ </p> <br></br>
@@ -226,7 +186,7 @@ export default function Risk() {
             onChange={(event) => handleChange("height", event.target.value)}
             value={saveRisk.height}
             label="ส่วนสูง (เซนติเมตร)"
-            defaultValue=""
+            type="number"
           />
           <br></br> <br></br>
           <p style={{ color: "black" }}>3.โปรดกรอกรอบเอวของคุณ </p> <br></br>
@@ -235,7 +195,7 @@ export default function Risk() {
             onChange={(event) => handleChange("waistline", event.target.value)}
             value={saveRisk.waistline}
             label="รอบเอว (เซนติเมตร)"
-            defaultValue=""
+            type="number"
           />
           <br></br> <br></br>
           <p style={{ color: "black" }}>4.โปรดระบุความดันโลหิตของคุณ</p>
