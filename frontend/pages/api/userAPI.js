@@ -1,12 +1,12 @@
-import http from "./http-common";
+import http from "./http-common"
 
 class userAPI {
   register = (data) => {
-    return http.post("/user/register", data);
-  };
+    return http.post("/user/register", data)
+  }
   getUserDataByUsername = (username) => {
-    return http.get(`/user/data/${username}`);
-  };
+    return http.get(`/user/data/${username}`)
+  }
 }
 
-export default new userAPI();
+export default new userAPI()

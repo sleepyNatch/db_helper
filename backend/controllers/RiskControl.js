@@ -2,7 +2,7 @@
  * This file includes the functions that add, update, delete and query the data
  * from the users's collection in the database.
  ******************************************************************************/
-import Risk from "../models/RiskTestModel.js";
+import Risk from "../models/RiskTestModel.js"
 
 /*******************************************************************************
  * This function is used to register the user.
@@ -20,7 +20,7 @@ export const saveRisk = async (req, res) => {
     score,
     level,
     username,
-  } = req.body;
+  } = req.body
   const newRisk = new Risk({
     weight,
     height,
@@ -30,25 +30,25 @@ export const saveRisk = async (req, res) => {
     score,
     level,
     username,
-  });
+  })
 
   try {
-    const data = await newRisk.save();
-    res.status(201).json({ message: "information filled", data: data });
+    const data = await newRisk.save()
+    res.status(201).json({ message: "information filled", data: data })
   } catch (error) {
-    res.status(409).json({ Error: error.message });
+    res.status(409).json({ Error: error.message })
   }
-};
+}
 
 export const getRiskResult = async (req, res) => {
-  const { username } = req.params;
+  const { username } = req.params
   try {
-    const data = await Risk.findOne({ username: username });
-    res.status(200).json(data);
+    const data = await Risk.findOne({ username: username })
+    res.status(200).json(data)
   } catch (error) {
-    res.status(404).json({ Error: error.message });
+    res.status(404).json({ Error: error.message })
   }
-};
+}
 
 // export const getData = async (req, res) => {
 //   try {

@@ -1,9 +1,9 @@
 /***
- 
+
 Main page of backend**/
 import express from "express"
 import cors from "cors"
-import bodyParser from "body-parser"
+// import bodyParser from "body-parser"
 import mongoose from "mongoose"
 import userRoutes from "./routes/userRoutes.js"
 import riskRoutes from "./routes/riskRoutes.js"
@@ -14,17 +14,28 @@ const port = 5000
 // Connect/Express middleware
 app.use(cors())
 
-// app.use(express.json());
 // looks at requests where the Content-Type: application/json
+// app.use(
+//   bodyParser.json({
+//     limit: "50mb",
+//   })
+// )
 app.use(
-  bodyParser.json({
+  express.json({
     limit: "50mb",
   })
 )
 
 // object will contain values of any type instead of just strings
+// app.use(
+//   bodyParser.urlencoded({
+//     limit: "50mb",
+//     parameterLimit: 100000,
+//     extended: true,
+//   })
+// )
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     limit: "50mb",
     parameterLimit: 100000,
     extended: true,

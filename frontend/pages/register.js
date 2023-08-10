@@ -1,36 +1,36 @@
-"use client";
-import { createContext } from "react";
+"use client"
+import { createContext } from "react"
+import { MuiTelInput } from "mui-tel-input"
+const Context = createContext()
+import { TextField } from "@mui/material"
+import * as React from "react"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import Select from "@mui/material/Select"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
+import Button from "@mui/material/Button"
+import AppBar from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Toolbar from "@mui/material/Toolbar"
+import IconButton from "@mui/material/IconButton"
+import Avatar from "@mui/material/Avatar"
 
-const Context = createContext();
-import { TextField } from "@mui/material";
-import * as React from "react";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Button from "@mui/material/Button";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useRouter } from "next/router";
-import userAPI from "./api/userAPI";
+import Input from "@mui/material/Input"
+import FilledInput from "@mui/material/FilledInput"
+import OutlinedInput from "@mui/material/OutlinedInput"
+import InputLabel from "@mui/material/InputLabel"
+import InputAdornment from "@mui/material/InputAdornment"
+import FormHelperText from "@mui/material/FormHelperText"
+import Visibility from "@mui/icons-material/Visibility"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
+import { useRouter } from "next/router"
+import userAPI from "./api/userAPI"
 
 export default function Home() {
   // const [Gender, setGender] = React.useState("");
-  const router = useRouter();
+  const router = useRouter()
   const [registerData, setRegisterData] = React.useState({
     name: "",
     surname: "",
@@ -41,48 +41,48 @@ export default function Home() {
     password: "",
     confirmPassword: "",
     email: "",
-  });
+  })
 
   const handleChange = (id, value) => {
-    let newValue = id === "gender" ? Number(value) : value;
+    let newValue = id === "gender" ? Number(value) : value
 
     if (id === "birthDate" && newValue instanceof Date) {
-      newValue = newValue.toISOString();
+      newValue = newValue.toISOString()
     }
 
     setRegisterData((prevFormData) => ({
       ...prevFormData,
       [id]: newValue,
-    }));
-  };
+    }))
+  }
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [showPassword, setShowPassword] = React.useState(false)
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false)
   const handleClickShowConfirmPassword = () =>
-    setShowConfirmPassword((show) => !show);
+    setShowConfirmPassword((show) => !show)
   const handleMouseDownConfirmPassword = (event) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
   const onClickRegister = () => {
-    console.log(registerData);
+    console.log(registerData)
 
     userAPI
       .register(registerData)
       .then((response) => {
-        localStorage.setItem("username", registerData.username);
-        console.log(response.data);
-        router.push("/risk");
+        localStorage.setItem("username", registerData.username)
+        console.log(response.data)
+        router.push("/risk")
       })
       .catch((e) => {
-        console.log(e);
-      });
-  };
+        console.log(e)
+      })
+  }
 
   return (
     <div style={{ background: "white" }}>
@@ -172,12 +172,38 @@ export default function Home() {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "10px" }}
       >
+        {/* <TextField
+          id="phoneNumber"
+          onChange={(event) => handleChange("phoneNumber", event.target.value)}
+          label="หมายเลขโทรศัพท์มือถือ"
+          variant="outlined"
+          type="number"
+          name="phone"
+        /> */}
+
         <TextField
           id="phoneNumber"
           onChange={(event) => handleChange("phoneNumber", event.target.value)}
           label="หมายเลขโทรศัพท์มือถือ"
           variant="outlined"
+          name="phone"
+          type="number"
+          // type="text"
+          inputProps={{
+            inputMode: "numeric",
+          }}
+          helperText="Please enter your phone number"
         />
+
+        {/* <MuiTelInput
+          id="phoneNumber"
+          onChange={(event) => handleChange("phoneNumber", event.target.value)}
+          label="หมายเลขโทรศัพท์มือถือ"
+          variant="outlined"
+          type="number"
+          maxlength="10"
+          name="phone"
+        /> */}
       </div>
 
       <div
@@ -188,6 +214,7 @@ export default function Home() {
           onChange={(event) => handleChange("email", event.target.value)}
           label="อีเมล"
           variant="outlined"
+          type="email"
         />
       </div>
 
@@ -277,5 +304,5 @@ export default function Home() {
         </Button>{" "}
       </div>
     </div>
-  );
+  )
 }

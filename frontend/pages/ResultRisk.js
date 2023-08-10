@@ -1,87 +1,89 @@
-import { useState, useEffect } from "react";
-import RiskAPI from "./api/riskAPI";
-import * as Constant from "../constant/resultConstant";
-import { useRouter } from "next/router";
+import { useState, useEffect } from "react"
+import RiskAPI from "./api/riskAPI"
+import * as Constant from "../constant/resultConstant"
+import { useRouter } from "next/router"
 
 export default function Result() {
-  const router = useRouter();
-  const [score, setScore] = useState(0);
-  const [level, setLevel] = useState(4);
-  const [levelTitle, setLevelTitle] = useState("");
-  const [levelDescription, setLevelDescription] = useState("");
-  const [suggestion, setSuggestion] = useState([]);
+  const router = useRouter()
+  const [score, setScore] = useState(0)
+  const [level, setLevel] = useState(0)
+  const [levelTitle, setLevelTitle] = useState("")
+  const [levelDescription, setLevelDescription] = useState("")
+  const [suggestion, setSuggestion] = useState([])
 
   useEffect(() => {
-    let usernameLocal = localStorage.getItem("username") || "Sugar";
-    getResult(usernameLocal);
-  }, []);
+    let usernameLocal = localStorage.getItem("username") || "Sugar"
+    getResult(usernameLocal)
+  }, [])
 
   useEffect(() => {
-    console.log("scoreResult", score);
-    console.log("LevelResult", level);
-  }, [score, level]);
+    console.log("scoreResult", score)
+    console.log("LevelResult", level)
+    setDescription()
+  }, [score, level])
 
   const getResult = (username) => {
-    console.log("user: ", username);
+    console.log("user: ", username)
     RiskAPI.getRiskResult(username)
       .then((response) => {
-        console.log("res", response.data);
-        setLevel(response.data.level);
-        setScore(response.data.score);
-        setDescription();
+        console.log("res", response.data)
+        setLevel(response.data.level)
+        setScore(response.data.score)
+        // setDescription()
       })
       .catch((e) => {
-        console.log("No level for this user");
-      });
-  };
+        console.log("No level for this user")
+      })
+  }
 
   const goToMainPage = () => {
-    router.push("/register");
-  };
+    router.push("/register")
+  }
 
   const setDescription = () => {
-    let suggestions = [];
+    let suggestions = []
     if (level == 1) {
-      setLevelTitle(Constant.LEVEL1);
-      setLevelDescription(Constant.DESCRIPTION_LEVEL1);
+      setLevelTitle(Constant.LEVEL1)
+      setLevelDescription(Constant.DESCRIPTION_LEVEL1)
+      console.log("level1")
       suggestions = [
         Constant.SUGGEST_EXERCISE,
         Constant.SUGGEST_CONTROL_WEIGHT,
         Constant.SUGGEST_CHECK_PRESSURE,
         Constant.SUGGEST_EVALUATE_3_YEAR,
-      ];
+      ]
     } else if (level == 2) {
-      setLevelTitle(Constant.LEVEL2);
-      setLevelDescription(Constant.DESCRIPTION_LEVEL2);
+      setLevelTitle(Constant.LEVEL2)
+      setLevelDescription(Constant.DESCRIPTION_LEVEL2)
       suggestions = [
         Constant.SUGGEST_EXERCISE,
         Constant.SUGGEST_CONTROL_WEIGHT,
         Constant.SUGGEST_CHECK_PRESSURE,
         Constant.SUGGEST_EVALUATE_1_to_3_YEAR,
-      ];
+      ]
     } else if (level == 3) {
-      setLevelTitle(Constant.LEVEL3);
-      setLevelDescription(Constant.DESCRIPTION_LEVEL3);
+      setLevelTitle(Constant.LEVEL3)
+      setLevelDescription(Constant.DESCRIPTION_LEVEL3)
       suggestions = [
         Constant.SUGGEST_FOOD_EXERCISE,
         Constant.SUGGEST_CONTROL_WEIGHT,
         Constant.SUGGEST_CHECK_PRESSURE,
         Constant.SUGGEST_CHECK_SUGAR,
         Constant.SUGGEST_EVALUATE_1_to_3_YEAR,
-      ];
+      ]
     } else {
-      setLevelTitle(Constant.LEVEL4);
-      setLevelDescription(Constant.DESCRIPTION_LEVEL4);
+      setLevelTitle(Constant.LEVEL4)
+      setLevelDescription(Constant.DESCRIPTION_LEVEL4)
       suggestions = [
         Constant.SUGGEST_FOOD_EXERCISE,
         Constant.SUGGEST_CONTROL_WEIGHT,
         Constant.SUGGEST_CHECK_PRESSURE,
         Constant.SUGGEST_CHECK_SUGAR,
         Constant.SUGGEST_EVALUATE_1_YEAR,
-      ];
+      ]
     }
-    setSuggestion(suggestions);
-  };
+    setSuggestion(suggestions)
+  }
 
   return (
     <div>
@@ -279,7 +281,23 @@ export default function Result() {
             </h3>
           </div>
         </button>
+        <div
+          style={{
+            backgroundColor: "#12A596",
+            marginLeft: "60px",
+            paddingTop: "30px",
+            borderRadius: "20px",
+          }}
+        >
+          <input
+            type="file"
+            name="uploader"
+            id="uploader"
+            accept="image/*"
+            capture
+          />
+        </div>
       </div>
     </div>
-  );
+  )
 }

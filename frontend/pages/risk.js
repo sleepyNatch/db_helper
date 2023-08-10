@@ -1,28 +1,23 @@
-"use client";
-import { createContext, useState, useEffect } from "react";
-const Context = createContext();
-import * as React from "react";
-import {
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  TextField,
-} from "@mui/material";
-import RiskAPI from "./api/riskAPI";
-import userAPI from "./api/userAPI";
-import { useRouter } from "next/router";
+"use client"
+import { createContext, useState, useEffect } from "react"
+const Context = createContext()
+import * as React from "react"
+import { FormGroup, FormControlLabel, Checkbox, TextField } from "@mui/material"
+import RiskAPI from "./api/riskAPI"
+import userAPI from "./api/userAPI"
+import { useRouter } from "next/router"
 
 export default function Risk() {
-  const router = useRouter();
-  const [selectedKwamdan, setSelectedKwamdan] = useState("");
-  const [selectedRelatives, setSelectedRelatives] = useState("");
-  const [userData, setUserData] = useState(null);
-  const [username, setUsername] = useState("");
-  const [totalScore, setTotalscore] = useState(0);
-  const [riskLevel, setRiskLevel] = useState(0);
-  const [isCalScore, setIsCalScore] = useState(false);
-  const [isCalLevel, setIsCalLevel] = useState(false);
-  const [isSaveData, setIsSaveData] = useState(false);
+  const router = useRouter()
+  const [selectedKwamdan, setSelectedKwamdan] = useState("")
+  const [selectedRelatives, setSelectedRelatives] = useState("")
+  const [userData, setUserData] = useState(null)
+  const [username, setUsername] = useState("")
+  const [totalScore, setTotalscore] = useState(0)
+  const [riskLevel, setRiskLevel] = useState(0)
+  const [isCalScore, setIsCalScore] = useState(false)
+  const [isCalLevel, setIsCalLevel] = useState(false)
+  const [isSaveData, setIsSaveData] = useState(false)
   const [saveRisk, setSaveRisk] = useState({
     weight: "",
     height: "",
@@ -31,139 +26,139 @@ export default function Risk() {
     relatives: "",
     score: 0,
     level: 0,
-  });
+  })
 
   useEffect(() => {
-    console.log("riskLevel", riskLevel);
-    console.log("totalScore", totalScore);
-    if (isCalScore) calculateLevel();
+    console.log("riskLevel", riskLevel)
+    console.log("totalScore", totalScore)
+    if (isCalScore) calculateLevel()
 
     setSaveRisk((prevFormData) => ({
       ...prevFormData,
       level: riskLevel,
-    }));
+    }))
 
     setSaveRisk((prevFormData) => ({
       ...prevFormData,
       score: totalScore,
-    }));
+    }))
 
     if (isCalLevel && isCalScore) {
-      saveData();
+      saveData()
     }
 
-    console.log(saveRisk);
-  }, [isCalLevel, isCalScore]);
+    console.log(saveRisk)
+  }, [isCalLevel, isCalScore])
 
   const kwamdanChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedKwamdan(selectedValue);
+    const selectedValue = event.target.value
+    setSelectedKwamdan(selectedValue)
 
     setSaveRisk((prevFormData) => ({
       ...prevFormData,
       [event.target.name]: selectedValue,
-    }));
-  };
+    }))
+  }
 
   const relativesChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedRelatives(event.target.value);
+    const selectedValue = event.target.value
+    setSelectedRelatives(event.target.value)
 
     setSaveRisk((prevFormData) => ({
       ...prevFormData,
       [event.target.name]: selectedValue,
-    }));
-  };
+    }))
+  }
 
   const handleChange = (id, value) => {
     setSaveRisk((prevFormData) => ({
       ...prevFormData,
       [id]: value,
-    }));
-  };
+    }))
+  }
 
   const onClickSaveRisk = () => {
-    console.log("onClickSaveRisk");
-    calculateScore(userData);
-  };
+    console.log("onClickSaveRisk")
+    calculateScore(userData)
+  }
 
   const saveData = () => {
     RiskAPI.saveRisk(saveRisk)
       .then((response) => {
-        router.push("/resultRisk");
-        console.log(response);
+        router.push("/resultRisk")
+        console.log(response)
       })
       .catch((e) => {
-        console.log(e);
-      });
-  };
+        console.log(e)
+      })
+  }
 
   const getUserData = (username) => {
     userAPI
       .getUserDataByUsername(username)
       .then((response) => {
-        setUserData(response.data);
+        setUserData(response.data)
       })
       .catch((e) => {
-        console.log(e);
-      });
-  };
+        console.log(e)
+      })
+  }
 
   const calculateScore = (data) => {
-    let score = 0;
-    let bmi = saveRisk.weight / Math.pow(saveRisk.height / 100, 2);
+    let score = 0
+    let bmi = saveRisk.weight / Math.pow(saveRisk.height / 100, 2)
 
     if (data.gender) {
-      score += 2;
+      score += 2
     }
 
     if (bmi >= 23 && bmi < 27.5) {
-      score += 3;
+      score += 3
     } else if (bmi >= 27.5) {
-      score += 5;
+      score += 5
     }
 
     if (
       (data.gender && saveRisk.waistline > 90) ||
       (!data.gender && saveRisk.waistline > 80)
     ) {
-      score += 2;
+      score += 2
     }
 
     if (saveRisk.kwamdan == "false") {
-      score += 2;
+      score += 2
     }
 
     if (saveRisk.relatives == "true") {
-      score += 4;
+      score += 4
     }
 
-    setTotalscore(score);
-    setIsCalScore(true);
-
-    console.log("score", score);
-  };
+    setTotalscore(score)
+    setIsCalScore(true)
+    router.push("/ResultRisk")
+    console.log("score", score)
+  }
 
   const calculateLevel = () => {
-    let calLevel = 0;
-    if (totalScore > 8) calLevel = 4;
-    else if (totalScore >= 6 && totalScore <= 8) calLevel = 3;
-    else if (totalScore >= 3 && totalScore <= 5) calLevel = 2;
-    else if (totalScore <= 2) calLevel = 1;
+    let calLevel = 0
+    if (totalScore > 8) calLevel = 4
+    else if (totalScore >= 6 && totalScore <= 8) calLevel = 3
+    else if (totalScore >= 3 && totalScore <= 5) calLevel = 2
+    else if (totalScore <= 2) calLevel = 1
 
-    setIsCalLevel(true);
-    console.log("calLevel", calLevel);
-  };
+    setIsCalLevel(true)
+    console.log("calLevel", calLevel)
+  }
 
   useEffect(() => {
-    let usernameLocal = localStorage.getItem("username") || "Sugar";
+    let usernameLocal = localStorage.getItem("username") || "Sugar"
     setSaveRisk((prevFormData) => ({
       ...prevFormData,
       username: usernameLocal,
-    }));
-    setUsername(usernameLocal);
-    getUserData(usernameLocal);
-  }, []);
+    }))
+    setUsername(usernameLocal)
+    getUserData(usernameLocal)
+  }, [])
 
   // useEffect(() => {
   //   console.log(userData);
@@ -307,5 +302,5 @@ export default function Risk() {
         </div>
       </div>
     </div>
-  );
+  )
 }
