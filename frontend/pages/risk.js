@@ -85,7 +85,7 @@ export default function Risk() {
   const saveData = () => {
     RiskAPI.saveRisk(saveRisk)
       .then((response) => {
-        router.push("/resultRisk")
+        router.push("/ResultRisk")
         console.log(response)
       })
       .catch((e) => {

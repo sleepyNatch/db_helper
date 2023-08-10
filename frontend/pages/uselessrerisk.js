@@ -42,7 +42,7 @@ export default function Result() {
 
   const setDescription = () => {
     let suggestions = []
-    if (score < 3) {
+    if (level == 1) {
       setLevelTitle(Constant.LEVEL1)
       setLevelDescription(Constant.DESCRIPTION_LEVEL1)
       console.log("level1")
@@ -52,7 +52,7 @@ export default function Result() {
         Constant.SUGGEST_CHECK_PRESSURE,
         Constant.SUGGEST_EVALUATE_3_YEAR,
       ]
-    } else if (totalScore >= 3 && totalScore <= 5) {
+    } else if (level == 2) {
       setLevelTitle(Constant.LEVEL2)
       setLevelDescription(Constant.DESCRIPTION_LEVEL2)
       suggestions = [
@@ -61,7 +61,7 @@ export default function Result() {
         Constant.SUGGEST_CHECK_PRESSURE,
         Constant.SUGGEST_EVALUATE_1_to_3_YEAR,
       ]
-    } else if (ltotalScore >= 6 && totalScore <= 8) {
+    } else if (level == 3) {
       setLevelTitle(Constant.LEVEL3)
       setLevelDescription(Constant.DESCRIPTION_LEVEL3)
       suggestions = [
@@ -72,7 +72,6 @@ export default function Result() {
         Constant.SUGGEST_EVALUATE_1_to_3_YEAR,
       ]
     } else {
-      sz
       setLevelTitle(Constant.LEVEL4)
       setLevelDescription(Constant.DESCRIPTION_LEVEL4)
       suggestions = [
