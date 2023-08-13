@@ -282,7 +282,7 @@ export default function Result() {
             </h3>
           </div>
         </button>
-        <div
+        {/* <div
           style={{
             backgroundColor: "#12A596",
             marginLeft: "60px",
@@ -297,7 +297,7 @@ export default function Result() {
             accept="image/*"
             capture
           />
-        </div>
+        </div> */}
       </div>
     </div>
   )
